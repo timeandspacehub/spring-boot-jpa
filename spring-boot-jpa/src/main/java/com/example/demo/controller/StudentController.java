@@ -68,28 +68,40 @@ public class StudentController {
 
 	@GetMapping("getByFirstName/{firstName}")
 	public List<StudentResponse> getByFirstName(@PathVariable String firstName) {
-		//1. Get list of Students
+		// 1. Get list of Students
 		List<Student> studentList = studentService.getByFirstName(firstName);
-		
-		//2. Convert list of Students to list of StudentResponse
+
+		// 2. Convert list of Students to list of StudentResponse
 		List<StudentResponse> studentResponseList = new ArrayList<>();
 		studentList.stream().forEach(student -> {
 			studentResponseList.add(new StudentResponse(student));
 		});
-		
+
 		return studentResponseList;
 	}
-	
 
 	@GetMapping("getByFirstNameAndLastName/{firstName}/{lastName}")
-	public StudentResponse getByFirstNameAndLastName(@PathVariable String firstName, 
-			@PathVariable String lastName) {
-		//1. Get student
+	public StudentResponse getByFirstNameAndLastName(@PathVariable String firstName, @PathVariable String lastName) {
+		// 1. Get student
 		Student student = studentService.getByFirstNameAndLastName(firstName, lastName);
-		
-		//2. Convert Student object to StudentResponse
+
+		// 2. Convert Student object to StudentResponse
 		return new StudentResponse(student);
 	}
 
+	@GetMapping("getByFirstNameOrLastName/{firstName}/{lastName}")
+	public List<StudentResponse> getByFirstNameOrLastName(@PathVariable String firstName,
+			@PathVariable String lastName) {
+		// 1. Get list of Students
+		List<Student> studentList = studentService.getByFirstNameOrLastName(firstName, lastName);
+
+		// 2. Convert list of Students to list of StudentResponse
+		List<StudentResponse> studentResponseList = new ArrayList<>();
+		studentList.stream().forEach(student -> {
+			studentResponseList.add(new StudentResponse(student));
+		});
+
+		return studentResponseList;
+	}
 
 }

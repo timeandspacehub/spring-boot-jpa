@@ -16,5 +16,7 @@ public interface StudentRepository extends JpaRepository<Student, Long>{
 	//Whatever order is in the method name, same name should be provided
 	//as the parameter name
 	Student findByFirstNameAndLastName(String firstName, String lastName);
+	
+	List<Student> findByFirstNameOrLastName(String firstName, String lastName);
 
 }
