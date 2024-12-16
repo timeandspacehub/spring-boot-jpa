@@ -67,5 +67,9 @@ public class StudentService {
 
 		return "Student has been deleted successfully!";
 	}
+	
+	public List<Student> getByFirstName (String firstName){
+		return studentRepository.findByFirstName(firstName);
+	}
 
 }
