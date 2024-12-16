@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.example.demo.entity.Student;
 import com.example.demo.repository.StudentRepository;
 import com.example.demo.request.CreateStudentRequest;
+import com.example.demo.request.UpdateStudentRequest;
 
 @Service
 public class StudentService {
@@ -34,4 +35,31 @@ public class StudentService {
 
 		return student;
 	}
+
+
+	/**
+	 * Takes DTO passed by controller, updates the data in database, 
+	 * and returns the updated record back to controller.
+	 * @param updateStudentRequest
+	 * @return
+	 */
+	public Student updateStudent(UpdateStudentRequest updateStudentRequest) {
+		
+		//1. First, fetch student from the database
+		//findById uses primary key and returns Optional, so call get()
+		Student student = studentRepository.findById(updateStudentRequest.getId()).get();
+
+		//2. Second, iff the value is passed by user in payload, then
+		//set set that value in the student object we retrieved from DB.
+		if(updateStudentRequest.getFirstName()!=null && 
+		!updateStudentRequest.getFirstName().isEmpty()){
+			student.setFirstName(updateStudentRequest.getFirstName());
+		}
+
+		student = studentRepository.save(student);
+
+		return student;
+	}
+
+
 }
