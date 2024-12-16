@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.entity.Student;
@@ -110,6 +111,20 @@ public class StudentController {
 	public List<StudentResponse> getByFirstNameIn(@RequestBody InQueryRequest inQueryRequest) {
 		// 1. Get list of Students
 		List<Student> studentList = studentService.getByFirstNameIn(inQueryRequest);
+
+		// 2. Convert list of Students to list of StudentResponse
+		List<StudentResponse> studentResponseList = new ArrayList<>();
+		studentList.stream().forEach(student -> {
+			studentResponseList.add(new StudentResponse(student));
+		});
+
+		return studentResponseList;
+	}
+	
+	@GetMapping("getAllWithPagination")
+	public List<StudentResponse> getAllStudentsWithPagination(@RequestParam int pageNo,  @RequestParam int pageSize) {
+		// 1. Get list of Students
+		List<Student> studentList = studentService.getAllStudentsWithPagination(pageNo, pageSize);
 
 		// 2. Convert list of Students to list of StudentResponse
 		List<StudentResponse> studentResponseList = new ArrayList<>();

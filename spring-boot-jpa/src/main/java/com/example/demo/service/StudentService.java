@@ -3,6 +3,8 @@ package com.example.demo.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.entity.Student;
@@ -84,5 +86,16 @@ public class StudentService {
 	public List<Student> getByFirstNameIn(InQueryRequest inQueryRequest) {
 		return studentRepository.findByFirstNameIn(inQueryRequest.getFirstNames());
 	}
+	
+	public List<Student> getAllStudentsWithPagination(int pageNo, int pageSize) {
+		//Spring data provides pageable interface, select it from springframework
+		//not from awt.
+		//PageRequest.of is zero based page index, so you need to pass 0 for page 1.
+		//So, you need to do -1
+		Pageable pageable = PageRequest.of(pageNo -1, pageSize);
+		
+		return studentRepository.findAll(pageable).getContent();
+	}
+	
 
 }
