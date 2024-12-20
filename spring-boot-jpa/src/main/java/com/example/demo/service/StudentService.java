@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.entity.Student;
@@ -64,38 +65,48 @@ public class StudentService {
 	}
 
 	public String deleteStudent(long id) {
-		//deleteById method doesn't return anything. But if doesn't 
-		//throw any error we will just return a string msg.
+		// deleteById method doesn't return anything. But if doesn't
+		// throw any error we will just return a string msg.
 		studentRepository.deleteById(id);
 
 		return "Student has been deleted successfully!";
 	}
-	
-	public List<Student> getByFirstName (String firstName){
+
+	public List<Student> getByFirstName(String firstName) {
 		return studentRepository.findByFirstName(firstName);
 	}
-	
+
 	public Student getByFirstNameAndLastName(String firstName, String lastName) {
 		return studentRepository.findByFirstNameAndLastName(firstName, lastName);
 	}
-	
+
 	public List<Student> getByFirstNameOrLastName(String firstName, String lastName) {
 		return studentRepository.findByFirstNameOrLastName(firstName, lastName);
 	}
-	
+
 	public List<Student> getByFirstNameIn(InQueryRequest inQueryRequest) {
 		return studentRepository.findByFirstNameIn(inQueryRequest.getFirstNames());
 	}
-	
+
 	public List<Student> getAllStudentsWithPagination(int pageNo, int pageSize) {
-		//Spring data provides pageable interface, select it from springframework
-		//not from awt.
-		//PageRequest.of is zero based page index, so you need to pass 0 for page 1.
-		//So, you need to do -1
-		Pageable pageable = PageRequest.of(pageNo -1, pageSize);
-		
+		// Spring data provides pageable interface, select it from springframework
+		// not from awt.
+		// PageRequest.of is zero based page index, so you need to pass 0 for page 1.
+		// So, you need to do -1
+		Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
+
 		return studentRepository.findAll(pageable).getContent();
 	}
-	
+
+	public List<Student> getAllStudentsWithSorting()
+	{	
+		//1. Sort class provided by Spring Data, which contains "by" static method
+		//2. First param is direction(ascending, descending)
+		//3. Second param is property name from Entity class & it must match exactly!!!!
+		//4. Separate as many fields as needed separated by comma
+		Sort sort = Sort.by(Sort.Direction.ASC, "firstName", "lastName");
+		
+		return studentRepository.findAll(sort);
+	}
 
 }

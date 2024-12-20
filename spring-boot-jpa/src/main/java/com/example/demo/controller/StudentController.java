@@ -105,8 +105,7 @@ public class StudentController {
 
 		return studentResponseList;
 	}
-	
-	
+
 	@GetMapping("getByFirstNameIn")
 	public List<StudentResponse> getByFirstNameIn(@RequestBody InQueryRequest inQueryRequest) {
 		// 1. Get list of Students
@@ -120,11 +119,25 @@ public class StudentController {
 
 		return studentResponseList;
 	}
-	
+
 	@GetMapping("getAllWithPagination")
-	public List<StudentResponse> getAllStudentsWithPagination(@RequestParam int pageNo,  @RequestParam int pageSize) {
+	public List<StudentResponse> getAllStudentsWithPagination(@RequestParam int pageNo, @RequestParam int pageSize) {
 		// 1. Get list of Students
 		List<Student> studentList = studentService.getAllStudentsWithPagination(pageNo, pageSize);
+
+		// 2. Convert list of Students to list of StudentResponse
+		List<StudentResponse> studentResponseList = new ArrayList<>();
+		studentList.stream().forEach(student -> {
+			studentResponseList.add(new StudentResponse(student));
+		});
+
+		return studentResponseList;
+	}
+
+	@GetMapping("getAllWithSorting")
+	public List<StudentResponse> getAllStudentsWithSorting() {
+		// 1. Get list of all students sorted by firstName and lastName fields
+		List<Student> studentList = studentService.getAllStudentsWithSorting();
 
 		// 2. Convert list of Students to list of StudentResponse
 		List<StudentResponse> studentResponseList = new ArrayList<>();
