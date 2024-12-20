@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,12 +8,14 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import com.example.demo.entity.Student;
 import com.example.demo.repository.StudentRepository;
 import com.example.demo.request.CreateStudentRequest;
 import com.example.demo.request.InQueryRequest;
 import com.example.demo.request.UpdateStudentRequest;
+import com.example.demo.response.StudentResponse;
 
 @Service
 public class StudentService {
@@ -108,5 +111,10 @@ public class StudentService {
 		
 		return studentRepository.findAll(sort);
 	}
-
+	
+	public List<Student> like(String firstNameSubString)
+	{	
+		return studentRepository.findByFirstNameContains(firstNameSubString);
+	}
+	
 }

@@ -147,5 +147,19 @@ public class StudentController {
 
 		return studentResponseList;
 	}
+	
+	@GetMapping("like/{firstNameSubString}")
+	public List<StudentResponse> like(@PathVariable String firstNameSubString) {
+		// 1. Get list of all students which contains the substring passed in the first name.
+		List<Student> studentList = studentService.like(firstNameSubString);
+
+		// 2. Convert list of Students to list of StudentResponse
+		List<StudentResponse> studentResponseList = new ArrayList<>();
+		studentList.stream().forEach(student -> {
+			studentResponseList.add(new StudentResponse(student));
+		});
+
+		return studentResponseList;
+	}
 
 }
