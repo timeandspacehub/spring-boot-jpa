@@ -101,8 +101,7 @@ public class StudentService {
 		return studentRepository.findAll(pageable).getContent();
 	}
 
-	public List<Student> getAllStudentsWithSorting()
-	{	
+	public List<Student> getAllStudentsWithSorting(){	
 		//1. Sort class provided by Spring Data, which contains "by" static method
 		//2. First param is direction(ascending, descending)
 		//3. Second param is property name from Entity class & it must match exactly!!!!
@@ -112,9 +111,12 @@ public class StudentService {
 		return studentRepository.findAll(sort);
 	}
 	
-	public List<Student> like(String firstNameSubString)
-	{	
+	public List<Student> like(String firstNameSubString){	
 		return studentRepository.findByFirstNameContains(firstNameSubString);
+	}
+	
+	public List<Student> startsWith(String value){	
+		return studentRepository.findByFirstNameStartsWith(value);
 	}
 	
 }

@@ -161,5 +161,19 @@ public class StudentController {
 
 		return studentResponseList;
 	}
+	
+	@GetMapping("startsWith/{value}")
+	public List<StudentResponse> startsWith(@PathVariable String value) {
+		// 1. Get list of all students which "starts with" the value passed in the arguments.
+		List<Student> studentList = studentService.startsWith(value);
+
+		// 2. Convert list of Students to list of StudentResponse
+		List<StudentResponse> studentResponseList = new ArrayList<>();
+		studentList.stream().forEach(student -> {
+			studentResponseList.add(new StudentResponse(student));
+		});
+
+		return studentResponseList;
+	}
 
 }
