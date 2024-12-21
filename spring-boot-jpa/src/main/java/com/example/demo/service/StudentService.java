@@ -8,7 +8,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.entity.Address;
 import com.example.demo.entity.Student;
+import com.example.demo.repository.AddressRepository;
 import com.example.demo.repository.StudentRepository;
 import com.example.demo.request.CreateStudentRequest;
 import com.example.demo.request.InQueryRequest;
@@ -19,6 +21,9 @@ public class StudentService {
 
 	@Autowired
 	StudentRepository studentRepository;
+	
+	@Autowired
+	AddressRepository addressRepository;
 
 	public List<Student> getAllStudents() {
 		return studentRepository.findAll();
@@ -26,13 +31,27 @@ public class StudentService {
 
 	/**
 	 * Take Payload/request-dto from user to create a Student Entity and then store
-	 * the entity in DB
+	 * the entity in DB. 
+	 * 
+	 * Student Entity "Has-a-Relationship" with Address Entity.
 	 * 
 	 * @param createStudentRequest
 	 */
 	public Student createStudent(CreateStudentRequest createStudentRequest) {
-		// Convert payload to entity class
+		//1.  Convert payload to entity class
 		Student student = new Student(createStudentRequest);
+		
+		//2. Before we persist the student object, create a new object of Address
+		Address address = new Address();
+		address.setStreet(createStudentRequest.getStreet());
+		address.setCity(createStudentRequest.getCity());
+		
+		address = addressRepository.save(address);
+		
+		//3. id value is returned after saving the address object, which
+		// will be the Foreign Key for the student table record that we are going 
+		// to insert next.
+		student.setAddress(address);
 
 		// save returns the object/row created in the DB along with ID field
 		student = studentRepository.save(student);

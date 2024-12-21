@@ -6,7 +6,6 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 
-
 @Getter
 @Setter
 public class CreateStudentRequest {
@@ -18,5 +17,9 @@ public class CreateStudentRequest {
 	private String lastName;
 
 	private String email;
+
+	private String street;
+
+	private String city;
 
 }
