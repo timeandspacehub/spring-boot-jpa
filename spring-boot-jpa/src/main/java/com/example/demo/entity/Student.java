@@ -7,6 +7,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 import lombok.Getter;
@@ -36,6 +38,10 @@ public class Student {
 	
 	@Transient
 	private String fullName;
+	
+	@OneToOne
+	@JoinColumn(name = "address_id")
+	private Address address;
 	
 	public Student(CreateStudentRequest createStudentRequest) {
 		this.firstName = createStudentRequest.getFirstName();
