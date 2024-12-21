@@ -175,5 +175,15 @@ public class StudentController {
 
 		return studentResponseList;
 	}
+	
+	@PutMapping("updateFirstName/{id}/{firstName}")
+	public String updateStudentWithJpql(@PathVariable Long id, @PathVariable String firstName) {
+		return studentService.updateStudentWithJpql(id, firstName) + "Student(s) updated";
+	}
+	
+	@DeleteMapping("deleteByFirstName/{firstName}")
+	public String deleteStudent(@PathVariable String firstName) {
+		return studentService.deleteStudent(firstName) + "Student(s) updated";
+	}
 
 }

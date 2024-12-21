@@ -3,9 +3,11 @@ package com.example.demo.repository;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.entity.Student;
 
@@ -36,4 +38,20 @@ public interface StudentRepository extends JpaRepository<Student, Long>{
 	@Query("FROM Student WHERE firstName = :firstname AND lastName = :lastName")
 	Student getByLastNameAndFirstName(String lastName, @Param("firstname") String firstName);
 
+	//1. Whenever your query is updating data in the table, then you need to mark it with 
+	// @Modify annotation in JPQL.
+	//2. Make sure @Transactional is imported from Spring Framework NOT Jakarta
+	//3. If you don't provide @Modifying and @Transcational, you will get an exception
+	//4. When JPQL updates it returns either void or integer ONLY when you use @Modifying.
+	// The number returned is the no. of rows affected by this update query. 
+	@Modifying
+	@Transactional
+	@Query("UPDATE Student SET firstName = :firstName WHERE id = :id")
+	Integer updateFirstName(Long id, String firstName);
+	
+	
+	@Modifying
+	@Transactional
+	@Query("DELETE FROM Student WHERE firstName = :firstName")
+	Integer deleteByFirstName(String firstName);
 }
