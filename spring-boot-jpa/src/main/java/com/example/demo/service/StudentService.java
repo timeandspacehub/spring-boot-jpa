@@ -144,4 +144,9 @@ public class StudentService {
 		return studentRepository.deleteByFirstName(firstName);
 	}
 	
+	public List<Student> getByCity(String city) {
+//		return studentRepository.findByAddressCity(city);
+		return studentRepository.getByAddressCity(city);
+	}
+	
 }
