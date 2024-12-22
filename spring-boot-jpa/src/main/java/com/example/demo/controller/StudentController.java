@@ -3,6 +3,8 @@ package com.example.demo.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,11 +29,20 @@ import jakarta.validation.Valid;
 @RequestMapping("/api/student/")
 public class StudentController {
 
+	// Error < Warn < Info < Debug < Trace
+	Logger logger = LoggerFactory.getLogger(StudentController.class);
+
 	@Autowired
 	StudentService studentService;
 
 	@GetMapping("getAll")
 	public List<StudentResponse> getAllStudent() {
+		logger.error("Inside Error");
+		logger.warn("Inside Warning");
+		logger.info("Inside Info");
+		logger.debug("Inside Debug");
+		logger.trace("Inside Trace");
+
 		List<Student> studentList = studentService.getAllStudents();
 
 		List<StudentResponse> studentResponseList = new ArrayList<>();
@@ -147,10 +158,11 @@ public class StudentController {
 
 		return studentResponseList;
 	}
-	
+
 	@GetMapping("like/{firstNameSubString}")
 	public List<StudentResponse> like(@PathVariable String firstNameSubString) {
-		// 1. Get list of all students which contains the substring passed in the first name.
+		// 1. Get list of all students which contains the substring passed in the first
+		// name.
 		List<Student> studentList = studentService.like(firstNameSubString);
 
 		// 2. Convert list of Students to list of StudentResponse
@@ -161,10 +173,11 @@ public class StudentController {
 
 		return studentResponseList;
 	}
-	
+
 	@GetMapping("startsWith/{value}")
 	public List<StudentResponse> startsWith(@PathVariable String value) {
-		// 1. Get list of all students which "starts with" the value passed in the arguments.
+		// 1. Get list of all students which "starts with" the value passed in the
+		// arguments.
 		List<Student> studentList = studentService.startsWith(value);
 
 		// 2. Convert list of Students to list of StudentResponse
@@ -175,17 +188,17 @@ public class StudentController {
 
 		return studentResponseList;
 	}
-	
+
 	@PutMapping("updateFirstName/{id}/{firstName}")
 	public String updateStudentWithJpql(@PathVariable Long id, @PathVariable String firstName) {
 		return studentService.updateStudentWithJpql(id, firstName) + "Student(s) updated";
 	}
-	
+
 	@DeleteMapping("deleteByFirstName/{firstName}")
 	public String deleteStudent(@PathVariable String firstName) {
 		return studentService.deleteStudent(firstName) + "Student(s) updated";
 	}
-	
+
 	@GetMapping("getByCity/{city}")
 	public List<StudentResponse> getByCity(@PathVariable String city) {
 		// 1. Get list of all students who live in the same city

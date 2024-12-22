@@ -27,10 +27,15 @@ public class AddressResponse {
 		this.id = address.getId();
 		this.street = address.getStreet();
 		this.city = address.getCity();
-		this.studentId = address.getStudent().getId();
-		this.firstName = address.getStudent().getFirstName();
-		this.lastName = address.getStudent().getLastName();
-		this.email = address.getStudent().getEmail();
-
+		
+		//Get student info only if the corresponding address_id
+		//exists in the student table.
+		if(address.getStudent()!=null) {
+			this.studentId = address.getStudent().getId();
+			this.firstName = address.getStudent().getFirstName();
+			this.lastName = address.getStudent().getLastName();
+			this.email = address.getStudent().getEmail();
+		}
+		
 	}
 }
