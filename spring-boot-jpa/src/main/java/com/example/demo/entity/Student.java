@@ -1,5 +1,7 @@
 package com.example.demo.entity;
 
+import java.util.List;
+
 import com.example.demo.request.CreateStudentRequest;
 
 import jakarta.persistence.Column;
@@ -9,6 +11,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
@@ -43,6 +46,11 @@ public class Student {
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "address_id")
 	private Address address;
+	
+	
+	@OneToMany(mappedBy = "student")
+	private List<Subject> learningSubjects;
+	
 	
 	public Student(CreateStudentRequest createStudentRequest) {
 		this.firstName = createStudentRequest.getFirstName();

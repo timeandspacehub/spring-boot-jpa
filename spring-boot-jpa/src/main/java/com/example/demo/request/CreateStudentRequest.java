@@ -1,5 +1,7 @@
 package com.example.demo.request;
 
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.validation.constraints.NotBlank;
@@ -21,5 +23,7 @@ public class CreateStudentRequest {
 	private String street;
 
 	private String city;
+	
+	private List<CreateSubjectRequest> subjectsLearning;
 
 }
