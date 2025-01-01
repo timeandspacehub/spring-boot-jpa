@@ -2,10 +2,10 @@ package com.example.demo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
-//@EntityScan("com.example.demo.entity")
-//@EnableJpaRepositories("com.example.demo.repository")
+@EnableScheduling
 public class SpringBootJpaApplication {
 
 	public static void main(String[] args) {
