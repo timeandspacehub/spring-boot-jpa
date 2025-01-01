@@ -21,10 +21,23 @@ public class AspectConfig {
 	//AND the value inside double quotes "Point Cut" i.e. which methods to intercept
 	// Advice + Point Cut = Aspect
 	//Execution instance that will come from controller is Joint Point
+	/**
 	@Before(value = "execution(* com.example.demo.controller.*.*(..))")
 	public void beforeAdvice(JoinPoint joinpoint) {
 		logger.info("Inside Before Advice");
 		
 	}
+	**/
+	
+	//Intercept all the methods that have exactly one method parameter.
+	//Here we have changed the pointcut - i.e. which method to intercept
+	//The value passed into the method parameter will now be assigned to "object" defined below. 
+	//You can access the object by declaring object. Parameter names MUST match! 
+	@Before(value = "execution(* com.example.demo.controller.*.*(..)) and args(object)")
+	public void beforeAdvice(JoinPoint joinpoint, Object object) {
+		logger.info("Request= " + object);
+		
+	}
+	
 	
 }
