@@ -1,7 +1,7 @@
 package com.example.demo.aop;
 
-import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.AfterReturning;
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,9 +46,28 @@ public class AspectConfig {
 	}
 	*/
 	
+	/**
 	@AfterReturning(value = "execution(* com.example.demo.controller.*.*(..)) and args(object)", 
 					returning = "returningObject")
 	public void beforeAdvice(JoinPoint joinpoint, Object object, Object returningObject) {
+		logger.info("Response= " + returningObject);
+	}
+	*/
+	
+	@Around(value = "execution(* com.example.demo.controller.*.*(..)) and args(object)")
+	public void aroundAdvice(ProceedingJoinPoint joinpoint, Object object) {
+		logger.info("Request= " + object);
+		
+		//Call the intercepted method using proceed() 
+		//The intercepted method will return an object. 
+		//The returned object is stored in returningObject.
+		Object returningObject = null;
+		try {
+			returningObject = joinpoint.proceed();
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
+		
 		logger.info("Response= " + returningObject);
 	}
 	
