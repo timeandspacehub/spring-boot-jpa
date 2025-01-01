@@ -1,7 +1,7 @@
 package com.example.demo.aop;
 
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.After;
+import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,7 +25,6 @@ public class AspectConfig {
 	@Before(value = "execution(* com.example.demo.controller.*.*(..))")
 	public void beforeAdvice(JoinPoint joinpoint) {
 		logger.info("Inside Before Advice");
-		
 	}
 	**/
 	
@@ -37,15 +36,20 @@ public class AspectConfig {
 	@Before(value = "execution(* com.example.demo.controller.*.*(..)) and args(object)")
 	public void beforeAdvice(JoinPoint joinpoint, Object object) {
 		logger.info("Request= " + object);
-		
 	}
 	*/
 
+	/**
 	@After(value = "execution(* com.example.demo.controller.*.*(..)) and args(object)")
 	public void beforeAdvice(JoinPoint joinpoint, Object object) {
 		logger.info("Request= " + object);
-		
 	}
+	*/
 	
+	@AfterReturning(value = "execution(* com.example.demo.controller.*.*(..)) and args(object)", 
+					returning = "returningObject")
+	public void beforeAdvice(JoinPoint joinpoint, Object object, Object returningObject) {
+		logger.info("Response= " + returningObject);
+	}
 	
 }
