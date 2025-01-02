@@ -40,8 +40,10 @@ public class StudentResponse {
 		this.email = student.getEmail();
 		this.fullName = student.getFirstName() + " " + student.getLastName();
 
-		this.street = student.getAddress().getStreet();
-		this.city = student.getAddress().getCity();
+		if(student.getAddress()!=null) {
+			this.street = student.getAddress().getStreet();
+			this.city = student.getAddress().getCity();
+		}
 
 		if (student.getLearningSubjects() != null) {
 			learningSubjects = new ArrayList<SubjectResponse>();

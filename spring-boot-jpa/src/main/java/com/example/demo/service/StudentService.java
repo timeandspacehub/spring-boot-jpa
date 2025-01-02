@@ -13,6 +13,7 @@ import com.example.demo.entity.Address;
 import com.example.demo.entity.Student;
 import com.example.demo.entity.Subject;
 import com.example.demo.repository.AddressRepository;
+import com.example.demo.repository.StudentJDBCTemplateRepository;
 import com.example.demo.repository.StudentRepository;
 import com.example.demo.repository.SubjectRepository;
 import com.example.demo.request.CreateStudentRequest;
@@ -27,10 +28,15 @@ public class StudentService {
 	StudentRepository studentRepository;
 	
 	@Autowired
+	StudentJDBCTemplateRepository studentJDBCTemplateRepository;
+	
+	@Autowired
 	AddressRepository addressRepository;
 	
 	@Autowired
 	SubjectRepository subjectRepository;
+	
+
 
 	public List<Student> getAllStudents() {
 		return studentRepository.findAll();
@@ -173,6 +179,10 @@ public class StudentService {
 	public List<Student> getByCity(String city) {
 //		return studentRepository.findByAddressCity(city);
 		return studentRepository.getByAddressCity(city);
+	}
+	
+	public List<Student> getAllStudentsUsingJDBCTemplate(){
+		return studentJDBCTemplateRepository.findAllUsers();
 	}
 	
 }
